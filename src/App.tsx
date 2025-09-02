@@ -1,5 +1,8 @@
+import { RouterProvider } from 'react-router-dom';
+import router from './lib/router';
+
 function App() {
-  return <h1 className="text-3xl font-bold text-red-400">Hello, pokedex!</h1>;
+  return <RouterProvider router={router} />;
 }
 
 export default App;
