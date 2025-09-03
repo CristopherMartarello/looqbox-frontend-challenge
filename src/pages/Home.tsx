@@ -9,8 +9,17 @@ const { Search } = Input;
 
 const Home = () => {
   const [page, setPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState('');
-  const { data, isLoading, isError, error } = useGetPokemons(20, 0, page);
+  const [showSize, setShowSize] = useState(20);
+  const [searchTerm, setSearchTerm] = useState<string | undefined>();
+  const { data, isLoading, isError, error } = useGetPokemons(showSize, 0, page);
+
+  const handleSearch = (value: string) => {
+    if (value.trim()) {
+      setSearchTerm(value.toLowerCase());
+    } else {
+      setSearchTerm(undefined);
+    }
+  };
 
   if (isError) {
     message.error('Erro ao carregar Pokémons');
@@ -21,53 +30,60 @@ const Home = () => {
     console.log('Clicou no Pokémon:', pokemon.name);
   };
 
-  const filteredPokemons =
-    data?.results.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
-    ) ?? [];
-
   return (
     <div className="container mx-auto flex flex-col">
       <div className="mb-6 space-y-4">
         <Row gutter={[24, 24]} justify="start">
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Search
-              placeholder="Buscar por nome"
+              placeholder="Buscar pokemon por nome"
               allowClear
               enterButton={<SearchOutlined />}
               size="large"
-              onSearch={setSearchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                if (!e.target.value.trim()) {
+                  setSearchTerm(undefined);
+                }
+              }}
+              onSearch={handleSearch}
             />
           </Col>
         </Row>
-
-        <div className="text-center text-gray-600">
-          {filteredPokemons.length > 0 ? (
-            <span>
-              Mostrando {filteredPokemons.length} de {data?.results.length ?? 0}{' '}
-              Pokémons
-            </span>
-          ) : (
-            <span>Nenhum Pokémon "{searchTerm}" encontrado</span>
-          )}
-        </div>
       </div>
 
-      <PokemonList
-        pokemons={filteredPokemons}
-        loading={isLoading}
-        onPokemonClick={handlePokemonClick}
-      />
-
-      <Pagination
-        className="!mt-6"
-        align="center"
-        current={page + 1}
-        pageSize={20}
-        total={data?.count ?? 0}
-        onChange={(p) => setPage(p - 1)}
-      />
+      {searchTerm ? (
+        <PokemonList
+          pokemons={[
+            {
+              name: searchTerm,
+              url: `https://pokeapi.co/api/v2/pokemon/${searchTerm}/`,
+            },
+          ]}
+          loading={isLoading}
+          onPokemonClick={handlePokemonClick}
+        />
+      ) : (
+        <>
+          <PokemonList
+            pokemons={data?.results ?? []}
+            loading={isLoading}
+            onPokemonClick={handlePokemonClick}
+          />
+          <Pagination
+            className="!mt-6"
+            align="center"
+            current={page + 1}
+            pageSize={showSize}
+            total={data?.count ?? 0}
+            onChange={(p, size) => {
+              setPage(p - 1);
+              setShowSize(size);
+            }}
+            onShowSizeChange={setShowSize}
+            pageSizeOptions={['10', '20', '50']}
+          />
+        </>
+      )}
     </div>
   );
 };

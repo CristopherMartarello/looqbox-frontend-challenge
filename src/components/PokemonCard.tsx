@@ -1,29 +1,30 @@
 import { Card, Flex, Tag, Typography, Badge } from 'antd';
-import type { NamedAPIResource, Pokemon } from '../types/pokemon';
+import type { Pokemon } from '../types/pokemon';
 import { POKEMON_TYPE_COLORS } from '../constants/pokemon';
-import { useGetPokemon } from '../hooks/data/use-get-pokemon';
 import StatCard from './StatCard';
 import PokemonCardSkeleton from './PokemonCardSkeleton';
+
 const { Meta } = Card;
 const { Text } = Typography;
 
 interface PokemonCardProps {
-  pokemonNamed: NamedAPIResource;
+  pokemon: Pokemon;
   onClick: (pokemon: Pokemon) => void;
+  hasError: boolean;
+  isLoading: boolean;
 }
 
-const PokemonCard = ({ pokemonNamed, onClick }: PokemonCardProps) => {
-  const { data: pokemon, isLoading } = useGetPokemon(pokemonNamed.url);
-
+const PokemonCard = ({ pokemon, onClick, isLoading }: PokemonCardProps) => {
   const handleCardClick = () => {
-    if (pokemon) {
-      onClick(pokemon);
-    }
+    if (pokemon) onClick(pokemon);
   };
+
+  if (isLoading) {
+    return <PokemonCardSkeleton />;
+  }
 
   const formatName = (name: string) =>
     name.charAt(0).toUpperCase() + name.slice(1);
-
   const formatId = (id: number) => `#${id.toString().padStart(3, '0')}`;
 
   const pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon?.id}.png`;
@@ -35,10 +36,6 @@ const PokemonCard = ({ pokemonNamed, onClick }: PokemonCardProps) => {
   const hp = getStatValue('hp');
   const attack = getStatValue('attack');
   const defense = getStatValue('defense');
-
-  if (isLoading) {
-    return <PokemonCardSkeleton />;
-  }
 
   return (
     <Card
@@ -54,9 +51,9 @@ const PokemonCard = ({ pokemonNamed, onClick }: PokemonCardProps) => {
           <img
             alt={pokemon?.name}
             src={pokemonImage}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = fallbackImage;
-            }}
+            onError={(e) =>
+              ((e.target as HTMLImageElement).src = fallbackImage)
+            }
             className="h-full w-full object-contain drop-shadow-lg"
             style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.4))' }}
           />
@@ -72,7 +69,6 @@ const PokemonCard = ({ pokemonNamed, onClick }: PokemonCardProps) => {
               </Text>
             }
           />
-
           <Badge
             count={formatId(pokemon?.id ?? 0)}
             style={{ backgroundColor: '#52c41a' }}
