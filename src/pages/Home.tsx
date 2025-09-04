@@ -4,10 +4,12 @@ import PokemonList from '../components/PokemonList';
 import type { Pokemon } from '../types/pokemon';
 import { useGetPokemons } from '../hooks/data/use-get-pokemons';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const { Search } = Input;
 
 const Home = () => {
+  const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [showSize, setShowSize] = useState(20);
   const [searchTerm, setSearchTerm] = useState<string | undefined>();
@@ -27,7 +29,7 @@ const Home = () => {
   }
 
   const handlePokemonClick = (pokemon: Pokemon) => {
-    console.log('Clicou no Pokémon:', pokemon.name);
+    navigate(`/pokemon/${pokemon.id}`);
   };
 
   return (

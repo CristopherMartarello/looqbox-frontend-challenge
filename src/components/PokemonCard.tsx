@@ -3,6 +3,7 @@ import type { Pokemon } from '../types/pokemon';
 import { POKEMON_TYPE_COLORS } from '../constants/pokemon';
 import StatCard from './StatCard';
 import PokemonCardSkeleton from './PokemonCardSkeleton';
+import { formatId, formatName } from '../utils/pokemonUtils';
 
 const { Meta } = Card;
 const { Text } = Typography;
@@ -23,11 +24,8 @@ const PokemonCard = ({ pokemon, onClick, isLoading }: PokemonCardProps) => {
     return <PokemonCardSkeleton />;
   }
 
-  const formatName = (name: string) =>
-    name.charAt(0).toUpperCase() + name.slice(1);
-  const formatId = (id: number) => `#${id.toString().padStart(3, '0')}`;
-
-  const pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon?.id}.png`;
+  const pokemonImage =
+    pokemon.sprites.other?.['official-artwork']?.front_default;
   const fallbackImage = pokemon?.sprites.front_default || '';
 
   const getStatValue = (statName: string) =>
@@ -50,7 +48,7 @@ const PokemonCard = ({ pokemon, onClick, isLoading }: PokemonCardProps) => {
         <div className="flex h-48 w-full items-center justify-center bg-white p-2">
           <img
             alt={pokemon?.name}
-            src={pokemonImage}
+            src={pokemonImage ?? fallbackImage}
             onError={(e) =>
               ((e.target as HTMLImageElement).src = fallbackImage)
             }
@@ -64,7 +62,7 @@ const PokemonCard = ({ pokemon, onClick, isLoading }: PokemonCardProps) => {
         <div className="flex flex-row items-center justify-between">
           <Meta
             title={
-              <Text className="text-lg font-semibold">
+              <Text className="!text-lg font-semibold">
                 {formatName(pokemon?.name ?? '')}
               </Text>
             }
@@ -98,9 +96,17 @@ const PokemonCard = ({ pokemon, onClick, isLoading }: PokemonCardProps) => {
         </div>
 
         <div className="grid grid-cols-3 gap-2 text-center">
-          <StatCard label="HP" value={hp} />
-          <StatCard label="ATK" value={attack} />
-          <StatCard label="DEF" value={defense} />
+          <StatCard label="HP" value={hp.toString()} className="bg-gray-50" />
+          <StatCard
+            label="ATK"
+            value={attack.toString()}
+            className="bg-gray-50"
+          />
+          <StatCard
+            label="DEF"
+            value={defense.toString()}
+            className="bg-gray-50"
+          />
         </div>
 
         <Flex justify="space-between" className="text-sm text-gray-600">

@@ -2,8 +2,14 @@ import { Typography } from 'antd';
 
 const { Text } = Typography;
 
-const StatCard = ({ label, value }: { label: string; value: number }) => (
-  <div className="flex flex-col rounded-lg bg-gray-50 p-2">
+interface StatCardProps {
+  label: string;
+  value: string;
+  className?: string;
+}
+
+const StatCard = ({ label, value, className }: StatCardProps) => (
+  <div className={`flex flex-col rounded-lg p-2 ${className}`}>
     <Text type="secondary" className="text-xs font-semibold">
       {label}
     </Text>
