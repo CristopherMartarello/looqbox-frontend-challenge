@@ -3,17 +3,17 @@ import { SearchOutlined } from '@ant-design/icons';
 import PokemonList from '../components/PokemonList';
 import type { Pokemon } from '../types/pokemon';
 import { useGetPokemons } from '../hooks/data/use-get-pokemons';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usePokemonListContext } from '../contexts/PokemonListContext';
+import { useState } from 'react';
 
 const { Search } = Input;
 
 const Home = () => {
   const navigate = useNavigate();
-  const [page, setPage] = useState(0);
-  const [showSize, setShowSize] = useState(20);
-  const [searchTerm, setSearchTerm] = useState<string | undefined>();
+  const { page, setPage, showSize, setShowSize } = usePokemonListContext();
   const { data, isLoading, isError, error } = useGetPokemons(showSize, 0, page);
+  const [searchTerm, setSearchTerm] = useState<string | undefined>();
 
   const handleSearch = (value: string) => {
     if (value.trim()) {
