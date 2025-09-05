@@ -7,6 +7,8 @@ import StatCard from '../components/StatCard';
 import { useGetPokemonSpecies } from '../hooks/data/use-get-pokemon-species';
 import { useAbilities } from '../hooks/data/use-get-pokemon-ability';
 import { useMoves } from '../hooks/data/use-get-pokemon-move';
+import StatsBarChart from '../components/StatsChart';
+import SimpleSpritesGrid from '../components/SimpleSpritesGrid';
 
 const PokemonDetails = () => {
   const { id } = useParams();
@@ -142,7 +144,7 @@ const PokemonDetails = () => {
             </div>
           </div>
         </div>
-        <div className="flex h-96 flex-1 flex-col gap-3 p-2">
+        <div className="flex flex-1 flex-col gap-3 p-2">
           <h1 className="text-xl font-semibold">
             Estatísticas base e atributos
           </h1>
@@ -158,6 +160,10 @@ const PokemonDetails = () => {
           </div>
 
           <Collapse accordion items={AccordionItems} defaultActiveKey={['1']} />
+          <div className="flex items-center justify-around">
+            <StatsBarChart stats={pokemon.stats} types={pokemon.types} />
+            <SimpleSpritesGrid sprites={pokemon.sprites} />
+          </div>
         </div>
       </div>
     </div>
