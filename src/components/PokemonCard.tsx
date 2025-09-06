@@ -9,7 +9,7 @@ const { Meta } = Card;
 const { Text } = Typography;
 
 interface PokemonCardProps {
-  pokemon: Pokemon;
+  pokemon?: Pokemon;
   onClick: (pokemon: Pokemon) => void;
   hasError: boolean;
   isLoading: boolean;
@@ -20,7 +20,7 @@ const PokemonCard = ({ pokemon, onClick, isLoading }: PokemonCardProps) => {
     if (pokemon) onClick(pokemon);
   };
 
-  if (isLoading) {
+  if (isLoading || !pokemon) {
     return <PokemonCardSkeleton />;
   }
 

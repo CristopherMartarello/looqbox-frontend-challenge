@@ -1,11 +1,12 @@
 import { Layout, theme } from 'antd';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Pokeball from '../../assets/pokeball.svg';
 
 const { Header, Content, Footer } = Layout;
 
 export default function AppLayout() {
   const { token } = theme.useToken();
+  const navigate = useNavigate();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -15,9 +16,14 @@ export default function AppLayout() {
           backgroundColor: token.colorPrimary,
         }}
       >
-        <img src={Pokeball} alt="Pokeball" className="mr-4 h-12 w-12" />
-        <div className="text-2xl font-bold text-white">
-          <h1>Pokedex</h1>
+        <div
+          className="flex cursor-pointer items-center"
+          onClick={() => navigate('/')}
+        >
+          <img src={Pokeball} alt="Pokeball" className="mr-4 h-10 w-10" />
+          <div className="text-2xl font-bold text-white">
+            <h1>Pokedex</h1>
+          </div>
         </div>
       </Header>
 

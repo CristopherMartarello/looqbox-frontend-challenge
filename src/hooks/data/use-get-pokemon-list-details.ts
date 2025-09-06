@@ -4,7 +4,7 @@ import { pokemonsQueryKeys } from '../../keys/queries';
 import type { NamedAPIResource } from '../../types/pokemon';
 
 export function useGetPokemonListDetails(pokemons: NamedAPIResource[]) {
-  return useQueries({
+  const results = useQueries({
     queries: pokemons.map((p) => ({
       queryKey: [pokemonsQueryKeys.getPokemon, p.url],
       queryFn: () => getPokemonDetails(p.url),
@@ -12,4 +12,14 @@ export function useGetPokemonListDetails(pokemons: NamedAPIResource[]) {
       enabled: !!p.url,
     })),
   });
+
+  const isLoading = results.some((r) => r.isLoading);
+  const isError = results.some((r) => r.isError);
+  const pokemonData = results.map((r) => r.data).filter(Boolean);
+
+  return {
+    isLoading,
+    isError,
+    data: pokemonData,
+  };
 }

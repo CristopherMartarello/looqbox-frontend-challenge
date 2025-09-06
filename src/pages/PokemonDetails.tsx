@@ -25,14 +25,22 @@ const PokemonDetails = () => {
     pokemon?.moves.slice(0, 6).map((m) => m.move.url) ?? []
   );
 
-  if (isLoading) return <Spin size="large" tip="Carregando Pokémon..." />;
+  if (isLoading) {
+    return (
+      <div className="container m-8 mx-auto flex flex-col justify-center p-4">
+        <Spin size="large" />;
+      </div>
+    );
+  }
 
   if (isError || !pokemon) {
     return (
-      <Empty
-        description={`Não foi possível carregar o Pokémon #${id}`}
-        image={Empty.PRESENTED_IMAGE_SIMPLE}
-      />
+      <div className="container m-8 mx-auto flex flex-col p-4">
+        <Empty
+          description={`Não foi possível carregar o Pokémon #${id}`}
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+        />
+      </div>
     );
   }
 
