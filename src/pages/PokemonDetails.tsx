@@ -28,7 +28,7 @@ const PokemonDetails = () => {
   if (isLoading) {
     return (
       <div className="container m-8 mx-auto flex flex-col justify-center p-4">
-        <Spin size="large" />;
+        <Spin size="large" />
       </div>
     );
   }

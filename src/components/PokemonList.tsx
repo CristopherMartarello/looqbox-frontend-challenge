@@ -1,20 +1,32 @@
-import { Row, Col, Empty } from 'antd';
+import { Row, Col, Empty, Spin } from 'antd';
 import PokemonCard from './PokemonCard';
 import { useGetPokemonListDetails } from '../hooks/data/use-get-pokemon-list-details';
 import type { NamedAPIResource, Pokemon } from '../types/pokemon';
 
 interface PokemonListProps {
   pokemons: NamedAPIResource[];
-  loading?: boolean;
+  isListLoading?: boolean;
   onPokemonClick: (pokemon: Pokemon) => void;
 }
 
-const PokemonList = ({ pokemons, onPokemonClick }: PokemonListProps) => {
+const PokemonList = ({
+  pokemons,
+  onPokemonClick,
+  isListLoading,
+}: PokemonListProps) => {
   const {
     data: pokemonDetails,
     isLoading,
     isError,
   } = useGetPokemonListDetails(pokemons);
+
+  if (isListLoading) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   if (isError) {
     return (

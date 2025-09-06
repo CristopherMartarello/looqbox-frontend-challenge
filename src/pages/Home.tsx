@@ -61,14 +61,14 @@ const Home = () => {
               url: `https://pokeapi.co/api/v2/pokemon/${searchTerm}/`,
             },
           ]}
-          loading={isLoading}
+          isListLoading={isLoading}
           onPokemonClick={handlePokemonClick}
         />
       ) : (
         <>
           <PokemonList
             pokemons={data?.results ?? []}
-            loading={isLoading}
+            isListLoading={isLoading}
             onPokemonClick={handlePokemonClick}
           />
           <Pagination
