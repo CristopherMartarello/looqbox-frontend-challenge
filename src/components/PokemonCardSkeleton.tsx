@@ -3,6 +3,7 @@ import { Card, Skeleton } from 'antd';
 const PokemonCardSkeleton = () => {
   return (
     <Card
+      data-testid="pokemon-card-skeleton"
       className="relative w-64 overflow-hidden"
       style={{
         borderRadius: '16px',
