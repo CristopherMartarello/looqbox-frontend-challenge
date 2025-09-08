@@ -82,7 +82,7 @@ const Home = () => {
               setShowSize(size);
             }}
             onShowSizeChange={setShowSize}
-            pageSizeOptions={['10', '20', '50']}
+            pageSizeOptions={['10', '20']}
           />
         </>
       )}
