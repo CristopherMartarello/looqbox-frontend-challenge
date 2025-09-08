@@ -36,10 +36,7 @@ describe('SimpleSpritesGrid', () => {
 
     render(<SimpleSpritesGrid sprites={partialSprites} />);
 
-    const images = screen.getAllByRole('img');
-    expect(images).toHaveLength(4);
-    images.forEach((img) => {
-      expect(img).toBeInTheDocument();
-    });
+    const containers = screen.getAllByText(/N\/A/i);
+    expect(containers).toHaveLength(4);
   });
 });
