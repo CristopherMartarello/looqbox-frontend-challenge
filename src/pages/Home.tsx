@@ -1,4 +1,4 @@
-import { message, Pagination, Input, Row, Col } from 'antd';
+import { Pagination, Input, Row, Col, Result } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import PokemonList from '../components/PokemonList';
 import type { Pokemon } from '../types/pokemon';
@@ -24,8 +24,14 @@ const Home = () => {
   };
 
   if (isError) {
-    message.error('Erro ao carregar Pokémons');
     console.error(error);
+    return (
+      <Result
+        status="error"
+        title="Erro ao carregar Pokémons"
+        subTitle="Tente novamente mais tarde."
+      />
+    );
   }
 
   const handlePokemonClick = (pokemon: Pokemon) => {
