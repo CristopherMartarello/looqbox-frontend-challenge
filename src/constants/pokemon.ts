@@ -19,14 +19,14 @@ export const POKEMON_TYPE_COLORS: Record<string, string> = {
   fairy: '#EE99AC',
 };
 
-export const POKEMON_STATS = {
+export const POKEMON_STATS: Record<string, string> = {
   hp: 'HP',
-  attack: 'Attack',
-  defense: 'Defense',
-  'special-attack': 'Sp. Attack',
-  'special-defense': 'Sp. Defense',
-  speed: 'Speed',
-} as const;
+  attack: 'ATK',
+  defense: 'DEF',
+  'special-attack': 'SP.ATK',
+  'special-defense': 'SP.DEF',
+  speed: 'SPE',
+};
 
 export const POKEMON_TYPES = [
   'normal',

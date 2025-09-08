@@ -4,9 +4,10 @@ import {
   PolarGrid,
   PolarAngleAxis,
   Tooltip,
+  ResponsiveContainer,
 } from 'recharts';
 import type { PokemonStat, PokemonType } from '../types/pokemon';
-import { POKEMON_TYPE_COLORS } from '../constants/pokemon';
+import { POKEMON_STATS, POKEMON_TYPE_COLORS } from '../constants/pokemon';
 
 interface PokemonStatsChartProps {
   stats: PokemonStat[];
@@ -15,23 +16,27 @@ interface PokemonStatsChartProps {
 
 const PokemonStatsChart = ({ stats, types }: PokemonStatsChartProps) => {
   const data = stats.map((stat) => ({
-    stat: stat.stat.name.toUpperCase(),
+    stat: POKEMON_STATS[stat.stat.name] ?? stat.stat.name.toUpperCase(),
     value: stat.base_stat,
   }));
 
   return (
-    <RadarChart outerRadius={100} width={500} height={300} data={data}>
-      <PolarGrid />
-      <PolarAngleAxis dataKey="stat" />
-      <Radar
-        name="Base Stats"
-        dataKey="value"
-        stroke={POKEMON_TYPE_COLORS[types[0].type.name] || '#8884d8'}
-        fill={POKEMON_TYPE_COLORS[types[0].type.name] || '#8884d8'}
-        fillOpacity={0.7}
-      />
-      <Tooltip />
-    </RadarChart>
+    <div className="h-72 w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <RadarChart outerRadius="70%" data={data}>
+          <PolarGrid />
+          <PolarAngleAxis dataKey="stat" />
+          <Radar
+            name="Base Stats"
+            dataKey="value"
+            stroke={POKEMON_TYPE_COLORS[types[0].type.name] || '#8884d8'}
+            fill={POKEMON_TYPE_COLORS[types[0].type.name] || '#8884d8'}
+            fillOpacity={0.7}
+          />
+          <Tooltip />
+        </RadarChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

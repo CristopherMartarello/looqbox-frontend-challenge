@@ -93,85 +93,92 @@ const PokemonDetails = () => {
   ];
 
   return (
-    <div className="container m-8 mx-auto flex flex-col p-4">
-      <div className="flex gap-4">
-        <div className="flex flex-col gap-2 rounded-2xl bg-gray-100 p-4 shadow-md">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">{formatName(pokemon.name)}</h1>
-            <h1 className="text-2xl font-bold">{formatId(pokemon.id)}</h1>
-          </div>
-          <img
-            alt={pokemon?.name}
-            src={pokemonImage ?? fallbackImage}
-            onError={(e) =>
-              ((e.target as HTMLImageElement).src = fallbackImage)
-            }
-            className="h-96 w-full object-contain drop-shadow-lg"
-            style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.5))' }}
-          />
-          <div className="w-full max-w-md rounded-xl border border-gray-200 p-4 shadow-md">
-            <p className="text-sm leading-relaxed text-gray-700">
-              {cleanedFlavorText}
-            </p>
-          </div>
-          <div className="flex flex-col flex-wrap gap-2 px-4 py-2">
-            <h1 className="text-md font-semibold">Tipos</h1>
-            <div className="flex flex-wrap gap-2">
-              {pokemon.types.map((t) => (
-                <span
-                  key={t.type.name}
-                  className="rounded-3xl px-4 py-2 text-sm font-medium text-white"
-                  style={{
-                    backgroundColor:
-                      POKEMON_TYPE_COLORS[t.type.name] || '#A8A878',
-                  }}
-                >
-                  {formatName(t.type.name)}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col flex-wrap gap-2 px-4 py-2">
-            <h1 className="text-md font-semibold">Características gerais</h1>
-            <div className="flex w-full justify-between gap-2">
-              <StatCard
-                label="Altura"
-                value={`${pokemon.height / 10} m`}
-                className="flex-1 items-center bg-gray-200 shadow-sm"
-              />
-              <StatCard
-                label="Peso"
-                value={`${pokemon.weight / 10} kg`}
-                className="flex-1 items-center bg-gray-200 shadow-sm"
-              />
-              <StatCard
-                label="XP"
-                value={`${pokemon.base_experience}`}
-                className="flex-1 items-center bg-gray-200 shadow-sm"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-1 flex-col gap-3 p-2">
-          <h1 className="text-xl font-semibold">
-            Estatísticas base e atributos
+    <div className="container m-4 mx-auto flex flex-col gap-6 p-4 lg:flex-row">
+      <div className="flex flex-col gap-4 rounded-2xl bg-gray-100 p-4 shadow-md lg:w-1/3">
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-bold sm:text-2xl">
+            {formatName(pokemon.name)}
           </h1>
-          <div className="grid grid-cols-3 gap-2 text-center">
-            {pokemon.stats.map((s) => (
-              <StatCard
-                key={s.stat.name}
-                label={s.stat.name.toUpperCase()}
-                value={`${s.base_stat}`}
-                className="bg-gray-100 shadow-sm"
-              />
+          <h1 className="text-xl font-bold sm:text-2xl">
+            {formatId(pokemon.id)}
+          </h1>
+        </div>
+
+        <img
+          alt={pokemon?.name}
+          src={pokemonImage ?? fallbackImage}
+          onError={(e) => ((e.target as HTMLImageElement).src = fallbackImage)}
+          className="h-64 w-full object-contain drop-shadow-lg sm:h-80 md:h-96"
+          style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.5))' }}
+        />
+
+        <div className="w-full rounded-xl border border-gray-200 p-3 shadow-md sm:p-4">
+          <p className="text-sm leading-relaxed text-gray-700 sm:text-base">
+            {cleanedFlavorText}
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-2 px-2 py-1 sm:px-4 sm:py-2">
+          <h1 className="text-md font-semibold">Tipos</h1>
+          <div className="flex flex-wrap gap-2">
+            {pokemon.types.map((t) => (
+              <span
+                key={t.type.name}
+                className="rounded-3xl px-3 py-1 text-sm font-medium text-white sm:px-4 sm:py-2"
+                style={{
+                  backgroundColor:
+                    POKEMON_TYPE_COLORS[t.type.name] || '#A8A878',
+                }}
+              >
+                {formatName(t.type.name)}
+              </span>
             ))}
           </div>
+        </div>
 
-          <Collapse accordion items={AccordionItems} defaultActiveKey={['1']} />
-          <div className="flex items-center justify-around">
-            <StatsBarChart stats={pokemon.stats} types={pokemon.types} />
-            <SimpleSpritesGrid sprites={pokemon.sprites} />
+        <div className="flex flex-col gap-2 px-2 py-1 sm:px-4 sm:py-2">
+          <h1 className="text-md font-semibold">Características gerais</h1>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <StatCard
+              label="Altura"
+              value={`${pokemon.height / 10} m`}
+              className="flex-1 items-center bg-gray-200 shadow-sm"
+            />
+            <StatCard
+              label="Peso"
+              value={`${pokemon.weight / 10} kg`}
+              className="flex-1 items-center bg-gray-200 shadow-sm"
+            />
+            <StatCard
+              label="XP"
+              value={`${pokemon.base_experience}`}
+              className="flex-1 items-center bg-gray-200 shadow-sm"
+            />
           </div>
+        </div>
+      </div>
+
+      <div className="flex flex-1 flex-col gap-4 p-2">
+        <h1 className="text-lg font-semibold sm:text-xl">
+          Estatísticas base e atributos
+        </h1>
+
+        <div className="grid grid-cols-2 gap-2 text-center sm:grid-cols-3">
+          {pokemon.stats.map((s) => (
+            <StatCard
+              key={s.stat.name}
+              label={s.stat.name.toUpperCase()}
+              value={`${s.base_stat}`}
+              className="bg-gray-100 shadow-sm"
+            />
+          ))}
+        </div>
+
+        <Collapse accordion items={AccordionItems} defaultActiveKey={['1']} />
+
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-around">
+          <StatsBarChart stats={pokemon.stats} types={pokemon.types} />
+          <SimpleSpritesGrid sprites={pokemon.sprites} />
         </div>
       </div>
     </div>
