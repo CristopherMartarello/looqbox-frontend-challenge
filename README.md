@@ -28,10 +28,11 @@ Página Details - Detalhes do Pokemon (Rayquaza)
 - [TypeScript](https://www.typescriptlang.org/) – Superset do JavaScript que adiciona tipagem estática.
 - [Vite](https://vite.dev/guide/) – Ferramenta de build e desenvolvimento rápido.
 - [React Router](https://reactrouter.com/) – Gerenciamento de rotas da aplicação.
-- [React Query](https://tanstack.com/query/latest) – Controle de cache, requisições e estados assíncronos.
+- [React Tanstack Query](https://tanstack.com/query/latest) – Controle de cache, requisições e estados assíncronos.
 - [Ant Design](https://ant.design/) – Biblioteca de componentes UI para estilização e usabilidade.
 - [Recharts](https://recharts.org/) – Biblioteca para gráficos, utilizada na exibição de estatísticas base dos Pokémons.
 - [Vitest](https://vitest.dev/) – Framework de testes unitários, integrado ao Vite.
+- [Tailwind CSS](https://tailwindcss.com/) – Framework de classes CSS para estilização rápida e responsiva.
 
 ## Rodando o projeto local
 
